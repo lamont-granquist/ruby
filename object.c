@@ -42,6 +42,7 @@ VALUE rb_cFalseClass;
 #define id_init_clone       idInitialize_clone
 #define id_init_dup         idInitialize_dup
 #define id_const_missing    idConst_missing
+#define id_kind_of          idKind_ofP
 
 #define CLASS_OR_MODULE_P(obj) \
     (!SPECIAL_CONST_P(obj) && \
@@ -1531,7 +1532,7 @@ rb_mod_freeze(VALUE mod)
 static VALUE
 rb_mod_eqq(VALUE mod, VALUE arg)
 {
-    return rb_obj_is_kind_of(arg, mod);
+    return rb_respond_to(arg, id_kind_of) ? rb_funcall(arg, id_kind_of, 1, mod) : rb_obj_is_kind_of(arg, mod);
 }
 
 /*

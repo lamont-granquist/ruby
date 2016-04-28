@@ -143,4 +143,12 @@ class TestCase < Test::Unit::TestCase
   def test_deoptimize_nil
     assert_equal :not_nil, NilEqqClass.new.eqq(nil)
   end
+
+  def test_decorator
+    flag = false
+    case Class.new(BasicObject) { def kind_of?(obj) obj == String end }.new
+    when String
+      flag = true
+    end
+  end
 end
